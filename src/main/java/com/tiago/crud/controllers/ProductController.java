@@ -11,6 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController // Fala para IDE quando compilar que toda essa classe será uma classe de controle.
 @RequestMapping("/products") // Estou informando que para "/product" vou utilizar todos os metodos dessa classe.
@@ -26,6 +27,17 @@ public class ProductController {
     public ResponseEntity getAll(){ // ResponseEntity ja contém metodos e atributos específicos para poder utilizar as melhores práticas no momendo de retornar um dado de uma API
         List<Product> listProduct = repository.findAll();
         return ResponseEntity.status(HttpStatus.OK).body(listProduct);
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity getById(@PathVariable Integer id){
+        Optional product = repository.findById(id);
+        if (product.isEmpty()){
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Product not found");
+        }
+        else {
+            return ResponseEntity.status(HttpStatus.FOUND).body(product.get());
+        }
     }
 
     // O @RequestBody fala que no momento que usarmos o POST(@PostMapping) é necessário ter um objeto do tipo product no
