@@ -1,16 +1,15 @@
 package com.tiago.crud.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 
+// Essa entity "fala" para nossa IDE que a gente ta usando uma anotação:
+// (Específica a utilidade de atributos metodos e classes) e que essa classe é uma entidade.
 @Entity(name = "product")
-@Table(name = "product")
+@Table(name = "product") // Fala que a entidade terá uma tabela com o nome "product" no banco de dados
 public class Product {
 
-    @id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Id // Aqui fala para o IDE que o proximo atributo abaixo se trata de um ID
+    @GeneratedValue(strategy = GenerationType.AUTO)// E terá a estratégia de valor dele gerada automaticamente
     private Integer id;
     private String name;
     private Long price;
