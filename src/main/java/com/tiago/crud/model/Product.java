@@ -9,10 +9,12 @@ import jakarta.persistence.*;
 public class Product {
 
     @Id // Aqui fala para o IDE que o proximo atributo abaixo se trata de um ID
-    @GeneratedValue(strategy = GenerationType.AUTO)// E terá a estratégia de valor dele gerada automaticamente
+    @GeneratedValue(strategy = GenerationType.IDENTITY)// O certo é usar IDENTITY em vez de AUTO
     private Integer id;
     private String name;
     private Long price;
+
+    public Product(){}
 
     public Product(Integer id, String name, Long price) {
         this.id = id;

@@ -1,13 +1,15 @@
 package com.tiago.crud.controllers;
 
+import com.fasterxml.jackson.databind.util.BeanUtil;
+import com.tiago.crud.dtos.ProductDto;
 import com.tiago.crud.model.Product;
 import com.tiago.crud.repositories.ProductRepository;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
 import java.util.List;
 
 @RestController // Fala para IDE quando compilar que toda essa classe será uma classe de controle.
@@ -24,5 +26,14 @@ public class ProductController {
     public ResponseEntity getAll(){ // ResponseEntity ja contém metodos e atributos específicos para poder utilizar as melhores práticas no momendo de retornar um dado de uma API
         List<Product> listProduct = repository.findAll();
         return ResponseEntity.status(HttpStatus.OK).body(listProduct);
+    }
+
+    // O @RequestBody fala que no momento que usarmos o POST(@PostMapping) é necessário ter um objeto do tipo product no
+    // corpo da requisição.
+    @PostMapping
+    public ResponseEntity save(@RequestBody ProductDto dto){
+        var product = new Product(); // 1 - Crio o objeto product vazio
+        BeanUtils.copyProperties(dto, product); // 2 - Copio os valores de dto para projects
+        return ResponseEntity.status(HttpStatus.CREATED).body(repository.save(product));
     }
 }
