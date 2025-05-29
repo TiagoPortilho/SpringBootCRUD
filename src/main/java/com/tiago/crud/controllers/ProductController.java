@@ -48,4 +48,16 @@ public class ProductController {
         BeanUtils.copyProperties(dto, product); // 2 - Copio os valores de dto para projects
         return ResponseEntity.status(HttpStatus.CREATED).body(repository.save(product));
     }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity delete(@PathVariable Integer id){
+        Optional<Product> product = repository.findById(id);
+        if (product.isEmpty()){
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Product not found");
+        }
+        else {
+            repository.delete(product.get());
+            return ResponseEntity.status(HttpStatus.OK).body("Product deleted");
+        }
+    }
 }
